@@ -3,7 +3,7 @@
 	"name": "Translator",
 	"version" : "1.0",
 	"background": {
-		"scripts": ["jquery-2.1.4.min.js"]
+		"scripts": ["jquery-2.1.4.min.js", "background.js"]
 	},
 	"content_scripts": [
 		{
@@ -11,6 +11,7 @@
 			"js" : ["jquery-2.1.4.min.js", "translate.js"],
 			"run_at": "document_end"
 		}
-	]
+	],
+	"permissions":["http://www.vdict.com/", "https://translate.google.com/*"]
 
 }

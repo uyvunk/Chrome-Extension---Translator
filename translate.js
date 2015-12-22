@@ -5,19 +5,22 @@ function getString() {
 	if(window.getSelection) {
 		var text = window.getSelection().toString().trim();
 	}
+
 	if(text && text != ""){
-		var url = "https://translate.google.com/#en/vi/"+text;
-		var xhr = new XMLHttpRequest();
-		xhr.open("GET", url, true);
-
-		xhr.onreadystatechange = function(){
-			if(xhr.readyState == 4){
-				var responseText = xhr.responseText;
-				console.log(responseText);
-			}
-		};
-
-		xhr.send();
+		// passing the text to background script
+		console.log("Looking for word: " + text);
+		chrome.runtime.sendMessage({"message":"query", "data":text});
 	}
-	
 }
+
+chrome.runtime.onMessage.addListener(
+	function(request, sender, sendResponse) {
+		if(request.message == "reply") {
+			console.log("Get back: " + request.data);
+			
+			// display the result-contents div
+			// var resultContents = $.parseHTML(request.data);
+			var result = $(request.data).find("#result-contents").html();
+			console.log("Result:\n" + result);
+		}
+	});
