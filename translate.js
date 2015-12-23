@@ -22,5 +22,13 @@ chrome.runtime.onMessage.addListener(
 			// var resultContents = $.parseHTML(request.data);
 			var result = $(request.data).find("#result-contents").html();
 			console.log("Result:\n" + result);
+			 
+			 // Append this div to body
+			 if ($('#translatorResult')) {
+				$('#translatorResult').empty();
+			 } else {
+				$('body').append('<div id="translatorResult"></div>');
+			 }
+			 $('#translatorResult').append(result);
 		}
 	});
