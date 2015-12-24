@@ -2,6 +2,9 @@
 	"manifest_version": 2,
 	"name": "Translator",
 	"version" : "1.0",
+	"icons": { "16": "16x16.png",
+           "48": "48x48.png",
+          "128": "128x128.png" },
 	"background": {
 		"scripts": ["jquery-2.1.4.min.js", "background.js"]
 	},
