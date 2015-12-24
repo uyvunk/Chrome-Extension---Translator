@@ -1,13 +1,9 @@
-var targetDiv;
-var resultDiv = '<div id="translatorResult" style="font-family: sans-serif; font-size: 9pt; width: 400px; max-height: 500px; overflow: auto; border: 1px solid #9593A9; padding: 5px; margin: 5px; border-radius: 5px; background-color: #ffffe5; position: fixed; top: 20px; z-index: 99999999999999999; opacity: 0.93; "></div>';
+var resultDiv = '<div id="translatorResult" style="font-family: sans-serif; font-size: 9pt; width: 400px; max-height: 500px; overflow: auto; border: 1px solid #9593A9; padding: 5px; margin: 5px; border-radius: 5px; background-color: #ffffe5; position: fixed; top: 20px; left: 20px; z-index: 99999999999999999; opacity: 0.93; "></div>';
 
 // User double click
 // get the selected word
 $("body").dblclick(getString);
-// get the target element ( div, p, section, ul)
-$("p, ul, section, div").dblclick(function(event) {
-	targetDiv = event.target;
-});
+
 // User single click, reset the page to original 
 $("body").click(resetPage);
 
@@ -22,7 +18,7 @@ function getString() {
 		}
 	}
 
-	if(text && text != ""){
+	if(text && text != "" && text.length > 1){
 		// passing the text to background script
 		// console.log("Looking for word: " + text);
 		chrome.runtime.sendMessage({"message":"query", "data":text});
@@ -47,13 +43,8 @@ chrome.runtime.onMessage.addListener(
 			if ($('#translatorResult').length > 0) {
 				$('#translatorResult').empty();
 			} else {
-			// 	if cannot find the target div, append it to <body>
-				if(targetDiv == undefined) {
-					$('body').append(resultDiv);
-				} else {
-			// 	if targetDiv is valid, insert the translatorResult before the targetDiv
-					$(resultDiv).insertBefore(targetDiv);
-				}
+			// 	if cannot find translatorResult, append it to <body>
+				$('body').append(resultDiv);
 			}
 			$('#translatorResult').append(result);
 			// Add style to translatorResult
@@ -99,6 +90,7 @@ function filter(result) {
 
 // Add style to the result DIV
 function pretty() {
+	$('.pronunciation')
 	$('.word_title').css({"color":"#D03071", "font-size":"10pt", "font-weight":"bold"});
 	$('.pronounce').css({"font-style":"italic"});
 	$('.phanloai').css({"color":"#D03071", "font-weight":"bold"});
