@@ -93,7 +93,7 @@ function pretty() {
 	$('.pronunciation')
 	$('.word_title').css({"color":"#D03071", "font-size":"10pt", "font-weight":"bold"});
 	$('.pronounce').css({"font-style":"italic"});
-	$('.phanloai').css({"color":"#D03071", "font-weight":"bold"});
+	$('.phanloai').css({"color":"#D03071", "font-weight":"bold", "border-top":"1px solid #666", "border-bottom":"1px solid #666", "background":"#eee"});
 	$('.list1').css({"list-style-type":"circle", "background":"none", "padding":"0px", "margin-left":"30px", "margin-bottom":"15px"});
 	$('.list1 li').css({"list-style-type":"circle","background":"none", "padding":"0px"});
 }
