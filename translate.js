@@ -1,4 +1,4 @@
-var resultDiv = '<div id="translatorResult" style="font-family: sans-serif; font-size: 9pt; width: 400px; max-height: 500px; overflow: auto; border: 1px solid #9593A9; padding: 5px; margin: 5px; border-radius: 5px; background-color: #ffffe5; position: fixed; top: 20px; left: 20px; z-index: 99999999999999999; opacity: 0.93; "></div>';
+var resultDiv = '<div id="translatorResult" style="text-align: left; font-family: sans-serif; font-size: 9pt; width: 400px; max-height: 500px; overflow: auto; border: 1px solid #9593A9; padding: 5px; margin: 5px; border-radius: 5px; background-color: #ffffe5; position: fixed; top: 20px; left: 20px; z-index: 99999999999999999; opacity: 0.93; "></div>';
 
 // User double click
 // get the selected word
@@ -93,7 +93,7 @@ function pretty() {
 	$('.pronunciation')
 	$('.word_title').css({"color":"#D03071", "font-size":"10pt", "font-weight":"bold"});
 	$('.pronounce').css({"font-style":"italic"});
-	$('.phanloai').css({"color":"#D03071", "font-weight":"bold", "border-top":"1px solid #666", "border-bottom":"1px solid #666", "background":"#eee"});
+	$('.phanloai').css({"color":"#D03071", "font-weight":"bold", "border-top":"1px solid #666", "border-bottom":"1px solid #666", "background":"#eee", "margin":"5px", "padding":"3px"});
 	$('.list1').css({"list-style-type":"circle", "background":"none", "padding":"0px", "margin-left":"30px", "margin-bottom":"15px"});
 	$('.list1 li').css({"list-style-type":"circle","background":"none", "padding":"0px"});
 }
