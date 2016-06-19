@@ -1,14 +1,49 @@
-var resultDiv = '<div id="translatorResult" style="text-align: left; font-family: sans-serif; font-size: 9pt; width: 400px; max-height: 500px; overflow: auto; border: 1px solid #9593A9; padding: 5px; margin: 5px; border-radius: 5px; color: #4A4444; background-color: #ffffe5; position: fixed; top: 20px; left: 20px; z-index: 99999999999999999; opacity: 0.93; "></div>';
+
+"use strict";
+var resultDiv = $("<div>", {id: "translatorResult"});
+
 
 // User double click
 // get the selected word
 $("body").dblclick(getString);
-
+//console.log(event.clientX);
 // User single click, reset the page to original 
 $("body").click(resetPage);
 
+$(window).scroll(resetPage);
+
 // Get the selected String
 function getString() {
+	console.log(event.clientY);
+	console.log(window.innerHeight);
+	var y = "";
+	var currentY = parseInt(event.clientY);
+	var windowY = parseInt(window.innerHeight);
+	if(currentY > windowY/2) {
+		y = currentY - 325 + "px";
+	} else {
+		y = currentY + "px";
+	}
+
+	resultDiv.css({
+		"text-align": "left",
+		"font-family": "sans-serif",
+		"font-size": "8pt",
+		"width": "400px",
+		"max-height": "300px",
+		"overflow": "auto",
+		"border": "1px solid #9593A9",
+		"padding": "5px",
+		"margin": "5px",
+		"border-radius": "5px",
+		"color": "#4A4444",
+		"background-color": "#ffffe5",
+		"position": "fixed",
+		"top": y,
+		"left": (parseInt(event.clientX) -200)+"px",
+		"z-index": "99999999999999999",
+		"opacity": "0.93"
+	});
 	var text = "";
 	if(window.getSelection) {
 		text = window.getSelection().toString().trim();
@@ -33,7 +68,7 @@ chrome.runtime.onMessage.addListener(
 			var result = $(request.data).find("#result-contents").html();
 			result = $.parseHTML(result);
 			// console.log("Result:\n" + result);
-			if (result == undefined) {
+			if (result === undefined) {
 				result = '<div class="word_title">Not found</div>';
 			} else {
 				filter(result);
@@ -46,7 +81,18 @@ chrome.runtime.onMessage.addListener(
 			// 	if cannot find translatorResult, append it to <body>
 				$('body').append(resultDiv);
 			}
-			$('#translatorResult').append(result);
+
+
+			if(parseInt(document.getElementById("translatorResult").style.left) <0 ) {
+				document.getElementById("translatorResult").style.left = "0px";
+			}
+
+			if(parseInt(document.getElementById("translatorResult").style.left) + 400 > parseInt(window.innerWidth)) {
+				document.getElementById("translatorResult").style.left = parseInt(window.innerWidth) - 425 + "px";
+			}
+
+
+			$('#translatorResult').html(result);
 			// Add style to translatorResult
 			pretty();
 		}
@@ -72,7 +118,7 @@ function filter(result) {
 			result.splice(i,1);
 			i--;
 		} else if (className == "list1") {
-			if (idioms == true) {
+			if (idioms === true) {
 				result.splice(i,1);
 				i--;
 			} else {
@@ -90,7 +136,6 @@ function filter(result) {
 
 // Add style to the result DIV
 function pretty() {
-	$('.pronunciation')
 	$('.word_title').css({"color":"#D03071", "font-size":"10pt", "font-weight":"bold"});
 	$('.pronounce').css({"font-style":"italic"});
 	$('.phanloai').css({"color":"#D03071", "font-weight":"bold", "border-top":"1px solid #666", "border-bottom":"1px solid #666", "background":"#eee", "margin":"5px", "padding":"3px"});
