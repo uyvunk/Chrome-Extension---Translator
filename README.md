@@ -10,4 +10,4 @@ How to use it?
 Special thank to: Vdict.com for the perfect online dictionary
 
 Update: 
-update the position of the translator.
++ update the position of the translator.
