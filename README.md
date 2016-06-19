@@ -8,3 +8,5 @@ How to use it?
 4. To disappear the result, click on any region of the page
 
 Special thank to: Vdict.com for the perfect online dictionary
+
+Update: update the position of the translator.
