@@ -5,20 +5,22 @@ var resultDiv = $("<div>", {id: "translatorResult"});
 
 // User double click
 // get the selected word
+var currentY = 0;
+var windowY = 0;
 $("body").dblclick(getString);
 //console.log(event.clientX);
 // User single click, reset the page to original 
 $("body").click(resetPage);
 
-$(window).scroll(resetPage);
+//$(window).scroll(resetPage);
 
 // Get the selected String
 function getString() {
 	console.log(event.clientY);
 	console.log(window.innerHeight);
 	var y = "";
-	var currentY = parseInt(event.clientY);
-	var windowY = parseInt(window.innerHeight);
+	currentY = parseInt(event.clientY);
+	windowY = parseInt(window.innerHeight);
 	if(currentY > windowY/2) {
 		y = currentY - 325 + "px";
 	} else {
@@ -68,7 +70,9 @@ chrome.runtime.onMessage.addListener(
 			var result = $(request.data).find("#result-contents").html();
 			result = $.parseHTML(result);
 			// console.log("Result:\n" + result);
-			if (result === undefined) {
+
+
+			if (result == undefined) {
 				result = '<div class="word_title">Not found</div>';
 			} else {
 				filter(result);
@@ -93,6 +97,12 @@ chrome.runtime.onMessage.addListener(
 
 
 			$('#translatorResult').html(result);
+
+			if(parseInt(document.getElementById("translatorResult").offsetHeight) <275 &&
+				currentY > windowY/2 ){
+				document.getElementById("translatorResult").style.top = parseInt(document.getElementById("translatorResult").style.top) +
+					(280 - parseInt(document.getElementById("translatorResult").offsetHeight)) + "px";
+			}
 			// Add style to translatorResult
 			pretty();
 		}
@@ -118,7 +128,7 @@ function filter(result) {
 			result.splice(i,1);
 			i--;
 		} else if (className == "list1") {
-			if (idioms === true) {
+			if (idioms == true) {
 				result.splice(i,1);
 				i--;
 			} else {
