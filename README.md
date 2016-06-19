@@ -11,4 +11,4 @@ Special thank to: Vdict.com for the perfect online dictionary
 
 Update: 
 - update the position of the translator.
-- https://youtu.be/-_U2mkLAbao
+- https://youtu.be/W3opLlR071M
