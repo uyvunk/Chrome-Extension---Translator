@@ -138,9 +138,9 @@ chrome.runtime.onMessage.addListener(
 					atY = newLocationY;
 
 					document.getElementById("translatorResult").style.left =
-						parseInt(document.getElementById("translatorResult").style.left) + dx;
+						parseInt(document.getElementById("translatorResult").style.left) + dx + "px";
 					document.getElementById("translatorResult").style.top =
-						parseInt(document.getElementById("translatorResult").style.top) + dy;
+						parseInt(document.getElementById("translatorResult").style.top) + dy + "px";
 				}
 			}
 
