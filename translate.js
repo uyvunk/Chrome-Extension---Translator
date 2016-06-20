@@ -8,23 +8,34 @@ var resultDiv = $("<div>", {id: "translatorResult"});
 var currentY = 0;
 var windowY = 0;
 var topPage = 0;
+var currentX = 0;
 $("body").dblclick(getString);
 //console.log(event.clientX);
 // User single click, reset the page to original 
-$("body").click(resetPage);
+//$("body").click(resetPage);
+$('body').click(function(evt){
+	if(evt.target.id == "translatorResult")
+		return;
+	//For descendants of menu_content being clicked, remove this check if you do not want to put constraint on descendants.
+	if($(evt.target).closest('#translatorResult').length)
+		return;
 
+	//Do processing of click event here for every element except with id menu_content
+	if ($('#translatorResult').length > 0) {
+		$('#translatorResult').remove();
+
+	}
+});
 
 //$(window).scroll(resetPage);
 
 // Get the selected String
 function getString() {
-	console.log(event.clientY);
-	console.log(event.pageX);
-	console.log(event.pageY);
+
 	var y = "";
 	currentY = parseInt(event.clientY);
 	topPage = parseInt(event.pageY) - parseInt(event.clientY);
-	console.log(topPage);
+	//console.log(topPage);
 
 	windowY = parseInt(window.innerHeight);
 	if(currentY > windowY/2) {
@@ -32,7 +43,7 @@ function getString() {
 	} else {
 		y = topPage + currentY + "px";
 	}
-
+	currentX = parseInt(event.clientX) -200;
 	resultDiv.css({
 		"text-align": "left",
 		"font-family": "sans-serif",
@@ -48,7 +59,7 @@ function getString() {
 		"background-color": "#ffffe5",
 		"position": "absolute",
 		"top": y,
-		"left": (parseInt(event.clientX) -200)+"px",
+		"left": currentX + "px",
 		"z-index": "99999999999999999",
 		"opacity": "0.93"
 	});
@@ -101,8 +112,37 @@ chrome.runtime.onMessage.addListener(
 				document.getElementById("translatorResult").style.left = parseInt(window.innerWidth) - 425 + "px";
 			}
 
-
+			var atX = 0;
+			var atY = 0;
 			$('#translatorResult').html(result);
+			document.getElementById("translatorResult").onmousedown = function () {
+				this.dragging = true;
+				atX = parseInt(event.clientX);
+				atY = parseInt(event.clientY);
+			}
+
+			document.getElementById("translatorResult").onmouseup = function () {
+				this.dragging = false;
+			}
+
+			document.getElementById("translatorResult").onmousemove = function() {
+				if(this.dragging) {
+					//console.log(event.clientY);
+					var newLocationX = parseInt(event.clientX);
+					var newLocationY = parseInt(event.clientY);
+					var dx = newLocationX - atX;
+					var dy = newLocationY - atY;
+					//console.log("dx" + dx);
+					//console.log("dy" + dy);
+					atX = newLocationX;
+					atY = newLocationY;
+
+					document.getElementById("translatorResult").style.left =
+						parseInt(document.getElementById("translatorResult").style.left) + dx;
+					document.getElementById("translatorResult").style.top =
+						parseInt(document.getElementById("translatorResult").style.top) + dy;
+				}
+			}
 
 			if(parseInt(document.getElementById("translatorResult").offsetHeight) <275 &&
 				currentY > windowY/2 ){
@@ -114,11 +154,17 @@ chrome.runtime.onMessage.addListener(
 		}
 	});
 	
-// Remove the result div	
+// Remove the result div
 function resetPage() {
 	if ($('#translatorResult').length > 0) {
 		$('#translatorResult').remove();
+
 	}
+
+}
+
+function updatePosition() {
+
 }
 
 // Remove unwanted elements like idioms, relatedWord or social
