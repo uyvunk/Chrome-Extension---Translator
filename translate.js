@@ -7,24 +7,30 @@ var resultDiv = $("<div>", {id: "translatorResult"});
 // get the selected word
 var currentY = 0;
 var windowY = 0;
+var topPage = 0;
 $("body").dblclick(getString);
 //console.log(event.clientX);
 // User single click, reset the page to original 
 $("body").click(resetPage);
+
 
 //$(window).scroll(resetPage);
 
 // Get the selected String
 function getString() {
 	console.log(event.clientY);
-	console.log(window.innerHeight);
+	console.log(event.pageX);
+	console.log(event.pageY);
 	var y = "";
 	currentY = parseInt(event.clientY);
+	topPage = parseInt(event.pageY) - parseInt(event.clientY);
+	console.log(topPage);
+
 	windowY = parseInt(window.innerHeight);
 	if(currentY > windowY/2) {
-		y = currentY - 325 + "px";
+		y = topPage + currentY - 325 + "px";
 	} else {
-		y = currentY + "px";
+		y = topPage + currentY + "px";
 	}
 
 	resultDiv.css({
@@ -40,7 +46,7 @@ function getString() {
 		"border-radius": "5px",
 		"color": "#4A4444",
 		"background-color": "#ffffe5",
-		"position": "fixed",
+		"position": "absolute",
 		"top": y,
 		"left": (parseInt(event.clientX) -200)+"px",
 		"z-index": "99999999999999999",
@@ -143,6 +149,7 @@ function filter(result) {
 		}
 	}
 }
+
 
 // Add style to the result DIV
 function pretty() {
