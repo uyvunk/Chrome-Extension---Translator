@@ -1,6 +1,6 @@
 # Chrome-Extension---Translator
 Translate English word to Vietnamese
-
+# Khanh Tran
 How to use it?
 1. Update Google Chrome to the newest verion
 2. Install the extension to Google Chrome.
