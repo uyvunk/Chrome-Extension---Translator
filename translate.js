@@ -132,5 +132,3 @@ function pretty() {
 	$('.list1').css({"list-style-type":"circle", "background":"none", "padding":"0px", "margin-left":"30px", "margin-bottom":"15px"});
 	$('.list1 li').css({"list-style-type":"circle","background":"none", "padding":"0px"});
 }
-Status API Training Shop Blog About
-© 2016 GitHub, Inc. Terms Privacy Security Contact Help
