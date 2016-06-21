@@ -8,6 +8,7 @@ $("body").dblclick(getString);
 $("body").click(resetPage);
 
 // Get the selected String
+// ..
 function getString() {
 	var text = "";
 	if(window.getSelection) {
