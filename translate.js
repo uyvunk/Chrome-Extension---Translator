@@ -86,7 +86,10 @@ chrome.runtime.onMessage.addListener(
 			// display the result-contents div
 			var result = $(request.data).find("#result-contents").html();
 			result = $.parseHTML(result);
-			// console.log("Result:\n" + result);
+			 //console.log("Result:\n" + result);
+			//result2 = $.parseHTML(result2);
+			//result2 = result2.outerHTML;
+			//console.log(result2);
 
 
 			if (result == undefined) {
