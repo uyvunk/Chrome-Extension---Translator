@@ -8,7 +8,6 @@ $("body").dblclick(getString);
 $("body").click(resetPage);
 
 // Get the selected String
-// ..
 function getString() {
 	var text = "";
 	if(window.getSelection) {
@@ -41,7 +40,7 @@ chrome.runtime.onMessage.addListener(
 			} else {
 				var audio_div = createAudio(alt_result);
 
-				//result.splice(4, 0, audio_div);
+				result.splice(4, 0, audio_div);
 				filter(result);
 				//console.log(result);
 			}
@@ -54,11 +53,6 @@ chrome.runtime.onMessage.addListener(
 				$('body').append(resultDiv);
 			}
 			$('#translatorResult').append(result);
-			var sound_content = document.getElementById("flashcontent");
-			sound_content.className = "flashcontent";
-			if (sound_content != null) {
-				sound_content.appendChild(audio_div);
-			}
 			// Add style to translatorResult
 			pretty();
 		}
@@ -116,7 +110,14 @@ function filter(result) {
 				//console.log("li outer: \n" + li.outerHTML);
 				result[i].innerHTML = li.outerHTML;
 			} 			
-		} else {
+		} else if (className == "pronunciation") {
+			console.log("I'm in pronunciation!!!!")
+			var li = $.parseHTML(result[i].innerHTML)[0];
+			console.log("li: \n" + li);
+			var cur = $.parseHTML(li.innerHTML);
+			console.log("cur: \n" + cur);
+		}
+		else {
 			idioms = false;
 		}
 	}
@@ -124,10 +125,9 @@ function filter(result) {
 
 // Add style to the result DIV
 function pretty() {
-	$('.pronunciation').css({"margin-top": "10px", "margin-bottom":"10px"})
-	$('.flashcontent').css({"display":"inline-block"});
+	$('.audio').css({"margin-right":"5px", "margin-top":"2px"});
 	$('.word_title').css({"color":"#D03071", "font-size":"10pt", "font-weight":"bold", "clear":"both"});
-	$('.pronounce').css({"font-style":"italic", "display":"inline"});
+	$('.pronounce').css({"font-style":"italic", "display":"inline", "margin-top":"5px"});
 	$('.phanloai').css({"color":"#D03071","clear":"both", "font-weight":"bold", "border-top":"1px solid #666", "border-bottom":"1px solid #666", "background":"#eee", "margin":"5px", "padding":"3px"});
 	$('.list1').css({"list-style-type":"circle", "background":"none", "padding":"0px", "margin-left":"30px", "margin-bottom":"15px"});
 	$('.list1 li').css({"list-style-type":"circle","background":"none", "padding":"0px"});
