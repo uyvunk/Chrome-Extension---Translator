@@ -131,7 +131,7 @@ chrome.runtime.onMessage.addListener(
 
 			document.getElementById("translatorResult").onmouseup = function () {
 				this.dragging = false;
-			}fds
+			}
 
 			document.getElementById("translatorResult").onmousemove = function() {
 				if(this.dragging) {
