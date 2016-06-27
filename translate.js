@@ -9,21 +9,27 @@ var currentY = 0;
 var windowY = 0;
 var topPage = 0;
 var currentX = 0;
+var isDragging = false;
 $("body").dblclick(getString);
 //console.log(event.clientX);
 // User single click, reset the page to original 
 //$("body").click(resetPage);
 $('body').click(function(evt){
-	if(evt.target.id == "translatorResult")
-		return;
-	//For descendants of menu_content being clicked, remove this check if you do not want to put constraint on descendants.
-	if($(evt.target).closest('#translatorResult').length)
-		return;
+	if(!isDragging) {
+		if (evt.target.id == "translatorResult")
+			return;
+		//For descendants of menu_content being clicked, remove this check if you do not want to put constraint on descendants.
+		if ($(evt.target).closest('#translatorResult').length)
+			return;
 
-	//Do processing of click event here for every element except with id menu_content
-	if ($('#translatorResult').length > 0) {
-		$('#translatorResult').remove();
+		//Do processing of click event here for every element except with id menu_content
+		if ($('#translatorResult').length > 0) {
+			$('#translatorResult').remove();
 
+		}
+	} else {
+		document.getElementById("translatorResult").dragging = false;
+		isDragging = false;
 	}
 });
 
@@ -31,51 +37,52 @@ $('body').click(function(evt){
 
 // Get the selected String
 function getString() {
+	if(!isDragging) {
+		var y = "";
+		currentY = parseInt(event.clientY);
+		topPage = parseInt(event.pageY) - parseInt(event.clientY);
+		//console.log(topPage);
 
-	var y = "";
-	currentY = parseInt(event.clientY);
-	topPage = parseInt(event.pageY) - parseInt(event.clientY);
-	//console.log(topPage);
-
-	windowY = parseInt(window.innerHeight);
-	if(currentY > windowY/2) {
-		y = topPage + currentY - 325 + "px";
-	} else {
-		y = topPage + currentY + "px";
-	}
-	currentX = parseInt(event.clientX) -200;
-	resultDiv.css({
-		"text-align": "left",
-		"font-family": "sans-serif",
-		"font-size": "8pt",
-		"width": "400px",
-		"max-height": "300px",
-		"overflow": "auto",
-		"border": "1px solid #9593A9",
-		"padding": "5px",
-		"margin": "5px",
-		"border-radius": "5px",
-		"color": "#4A4444",
-		"background-color": "#ffffe5",
-		"position": "absolute",
-		"top": y,
-		"left": currentX + "px",
-		"z-index": "99999999999999999",
-		"opacity": "0.93"
-	});
-	var text = "";
-	if(window.getSelection) {
-		text = window.getSelection().toString().trim();
-		// remove the string that follows "’"
-		if(text.indexOf("’") > -1){
-			text = text.substring(0,text.indexOf("’"));
+		windowY = parseInt(window.innerHeight);
+		if (currentY > windowY / 2) {
+			y = topPage + currentY - 325 + "px";
+		} else {
+			y = topPage + currentY + "px";
 		}
-	}
+		currentX = parseInt(event.clientX) - 200;
+		resultDiv.css({
+			"text-align": "left",
+			"font-family": "sans-serif",
+			"font-size": "8pt",
+			"width": "400px",
+			"max-height": "300px",
+			"overflow": "auto",
+			"border": "1px solid #9593A9",
+			"padding": "5px",
+			"margin": "5px",
+			"border-radius": "5px",
+			"color": "#4A4444",
+			"background-color": "#ffffe5",
+			"position": "absolute",
+			"top": y,
+			"left": currentX + "px",
+			"z-index": "99999999999999999",
+			"opacity": "0.93"
+		});
+		var text = "";
+		if (window.getSelection) {
+			text = window.getSelection().toString().trim();
+			// remove the string that follows "’"
+			if (text.indexOf("’") > -1) {
+				text = text.substring(0, text.indexOf("’"));
+			}
+		}
 
-	if(text && text != "" && text.length > 1){
-		// passing the text to background script
-		// console.log("Looking for word: " + text);
-		chrome.runtime.sendMessage({"message":"query", "data":text});
+		if (text && text != "" && text.length > 1) {
+			// passing the text to background script
+			// console.log("Looking for word: " + text);
+			chrome.runtime.sendMessage({"message": "query", "data": text});
+		}
 	}
 }
 
@@ -124,12 +131,14 @@ chrome.runtime.onMessage.addListener(
 			var atY = 0;
 			$('#translatorResult').html(result);
 			document.getElementById("translatorResult").onmousedown = function () {
+				isDragging = true;
 				this.dragging = true;
 				atX = parseInt(event.clientX);
 				atY = parseInt(event.clientY);
 			}
 
 			document.getElementById("translatorResult").onmouseup = function () {
+				isDragging = false;
 				this.dragging = false;
 			}
 
@@ -189,7 +198,7 @@ function resetPage() {
 // Remove unwanted elements like idioms, relatedWord or social
 function filter(result) {
 	var idioms = false;
-	console.log(result);
+	//console.log(result);
 	for (var i=0; i<result.length; i++) {
 		var className = result[i].className;		
 		var id = result[i].id;
