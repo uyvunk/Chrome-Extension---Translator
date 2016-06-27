@@ -98,6 +98,7 @@ chrome.runtime.onMessage.addListener(
 
 				// append it to the 4th element index array
 				result.splice(4, 0, audio_div);
+				// filter the result
 				filter(result);
 				//console.log(result);
 			}
