@@ -89,17 +89,14 @@ chrome.runtime.onMessage.addListener(
 			result = $.parseHTML(result);
 
 			var alt_result = request.data;
-			 //console.log("Result:\n" + result);
-			//result2 = $.parseHTML(result2);
-			//result2 = result2.outerHTML;
-			//console.log(result2);
-
 
 			if (result == undefined) {
 				result = '<div class="word_title">Not found</div>';
 			} else {
+				// create audio html tag for html
 				var audio_div = createAudio(alt_result);
 
+				// append it to the 4th element index array
 				result.splice(4, 0, audio_div);
 				filter(result);
 				//console.log(result);
@@ -133,7 +130,7 @@ chrome.runtime.onMessage.addListener(
 
 			document.getElementById("translatorResult").onmouseup = function () {
 				this.dragging = false;
-			}
+			}fds
 
 			document.getElementById("translatorResult").onmousemove = function() {
 				if(this.dragging) {
@@ -154,7 +151,7 @@ chrome.runtime.onMessage.addListener(
 				}
 			}
 
-			if(parseInt(document.getElementById("translatorResult").offsetHeight) <275 &&
+			if(parseInt(document.getElementById("translatorResult").offsetHeight) < 275 &&
 				currentY > windowY/2 ){
 				document.getElementById("translatorResult").style.top = parseInt(document.getElementById("translatorResult").style.top) +
 					(280 - parseInt(document.getElementById("translatorResult").offsetHeight)) + "px";
@@ -193,10 +190,7 @@ function filter(result) {
 	var idioms = false;
 	console.log(result);
 	for (var i=0; i<result.length; i++) {
-		var className = result[i].className;
-		console.log("current index " + i + "\n" + className);
-		
-
+		var className = result[i].className;		
 		var id = result[i].id;
 		if((className == "dictionary-name" || className == "relatedWord" || className == "idioms" || className == "" ) && id != "tandp") {
 			if(className == "idioms") {
@@ -210,19 +204,14 @@ function filter(result) {
 				i--;
 			} else {
 				var li = $.parseHTML(result[i].innerHTML)[0];
-				console.log("li: \n" + li.innerHTML);
 				var cur = $.parseHTML(li.innerHTML);
-				console.log("cur: \n" + cur.innerHTML);
 				cur.splice(1,cur.length - 1);
 				li.innerHTML = cur[0].outerHTML;
-				//console.log("li outer: \n" + li.outerHTML);
 				result[i].innerHTML = li.outerHTML;
 			} 			
 		} else if (className == "pronunciation") {
 			var li = $.parseHTML(result[i].innerHTML)[0];
-			console.log("li: \n" + li);
 			var cur = $.parseHTML(li.innerHTML);
-			console.log("cur: \n" + cur);
 		}
 		else {
 			idioms = false;
