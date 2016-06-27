@@ -22,7 +22,7 @@ $('body').click(function(evt){
 		if ($(evt.target).closest('#translatorResult').length)
 			return;
 
-		//Do processing of click event here for every element except with id menu_content
+		//Do processing of click event here for every element except with id menu_content.
 		if ($('#translatorResult').length > 0) {
 			$('#translatorResult').remove();
 
