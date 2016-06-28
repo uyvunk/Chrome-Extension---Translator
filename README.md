@@ -10,5 +10,6 @@ How to use it?
 Special thank to: Vdict.com for the perfect online dictionary
 
 Update: 
+- added pronunciation sound to the translator
 - update the position of the translator.
 - https://youtu.be/lp0ebT7Q1Ig

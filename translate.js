@@ -14,8 +14,8 @@ $("body").dblclick(getString);
 //console.log(event.clientX);
 // User single click, reset the page to original 
 //$("body").click(resetPage);
-$('body').click(function(evt) {
-	console.log("onclick " + isDragging);
+
+$('body').click(function(evt){
 	if(!isDragging) {
 		if (evt.target.id == "translatorResult")
 			return;
@@ -23,10 +23,9 @@ $('body').click(function(evt) {
 		if ($(evt.target).closest('#translatorResult').length)
 			return;
 
-		//Do processing of click event here for every element except with id menu_content
+		//Do processing of click event here for every element except with id menu_content.
 		if ($('#translatorResult').length > 0) {
 			$('#translatorResult').remove();
-
 		}
 	} else {
 		document.getElementById("translatorResult").dragging = false;
@@ -93,17 +92,22 @@ chrome.runtime.onMessage.addListener(
 		if(request.message == "reply") {			
 			// display the result-contents div
 			var result = $(request.data).find("#result-contents").html();
+			//console.log("Result:\n" + result);
 			result = $.parseHTML(result);
-			 //console.log("Result:\n" + result);
-			//result2 = $.parseHTML(result2);
-			//result2 = result2.outerHTML;
-			//console.log(result2);
 
+			var alt_result = request.data;
 
 			if (result == undefined) {
 				result = '<div class="word_title">Not found</div>';
 			} else {
+				// create audio html tag for html
+				var audio_div = createAudio(alt_result);
+
+				// append it to the 4th element index array
+				result.splice(4, 0, audio_div);
+				// filter the result
 				filter(result);
+				//console.log(result);
 			}
 			// Append this div to body
 			//	if the translatorResult is already used previously, then empty it
@@ -158,7 +162,7 @@ chrome.runtime.onMessage.addListener(
 				}
 			}
 
-			if(parseInt(document.getElementById("translatorResult").offsetHeight) <275 &&
+			if(parseInt(document.getElementById("translatorResult").offsetHeight) < 275 &&
 				currentY > windowY/2 ){
 				document.getElementById("translatorResult").style.top = parseInt(document.getElementById("translatorResult").style.top) +
 					(280 - parseInt(document.getElementById("translatorResult").offsetHeight)) + "px";
@@ -167,8 +171,23 @@ chrome.runtime.onMessage.addListener(
 			pretty();
 		}
 	});
-	
-// Remove the result div
+
+function createAudio(alt_result) {
+	var audio_link = alt_result.match(/http.*\.mp3/);
+	//console.log("audio link " + audio_link);
+	var div = document.createElement("div");
+	div.className = "audio";
+	var audio = document.createElement("audio");
+	audio.controls = "controls";
+	audio.id = "audio";
+	audio.className = "audio";
+	audio.src = audio_link;
+	audio.type = "audio/mp3";
+	div.appendChild(audio);	
+	return div;
+}
+
+// Remove the result div	
 function resetPage() {
 	if ($('#translatorResult').length > 0) {
 		$('#translatorResult').remove();
@@ -177,15 +196,12 @@ function resetPage() {
 
 }
 
-function updatePosition() {
-
-}
-
 // Remove unwanted elements like idioms, relatedWord or social
 function filter(result) {
 	var idioms = false;
+	//console.log(result);
 	for (var i=0; i<result.length; i++) {
-		var className = result[i].className;
+		var className = result[i].className;		
 		var id = result[i].id;
 		if((className == "dictionary-name" || className == "relatedWord" || className == "idioms" || className == "" ) && id != "tandp") {
 			if(className == "idioms") {
@@ -203,8 +219,12 @@ function filter(result) {
 				cur.splice(1,cur.length - 1);
 				li.innerHTML = cur[0].outerHTML;
 				result[i].innerHTML = li.outerHTML;
-			}			
-		} else {
+			} 			
+		} else if (className == "pronunciation") {
+			var li = $.parseHTML(result[i].innerHTML)[0];
+			var cur = $.parseHTML(li.innerHTML);
+		}
+		else {
 			idioms = false;
 		}
 	}
@@ -213,9 +233,10 @@ function filter(result) {
 
 // Add style to the result DIV
 function pretty() {
-	$('.word_title').css({"color":"#D03071", "font-size":"10pt", "font-weight":"bold"});
-	$('.pronounce').css({"font-style":"italic"});
-	$('.phanloai').css({"color":"#D03071", "font-weight":"bold", "border-top":"1px solid #666", "border-bottom":"1px solid #666", "background":"#eee", "margin":"5px", "padding":"3px"});
+	$('.audio').css({"margin-right":"5px", "margin-top":"2px"});
+	$('.word_title').css({"color":"#D03071", "font-size":"10pt", "font-weight":"bold", "clear":"both"});
+	$('.pronounce').css({"font-style":"italic", "display":"inline", "margin-top":"5px"});
+	$('.phanloai').css({"color":"#D03071","clear":"both", "font-weight":"bold", "border-top":"1px solid #666", "border-bottom":"1px solid #666", "background":"#eee", "margin":"5px", "padding":"3px"});
 	$('.list1').css({"list-style-type":"circle", "background":"none", "padding":"0px", "margin-left":"30px", "margin-bottom":"15px"});
 	$('.list1 li').css({"list-style-type":"circle","background":"none", "padding":"0px"});
 }
