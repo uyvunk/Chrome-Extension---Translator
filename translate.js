@@ -170,6 +170,7 @@ chrome.runtime.onMessage.addListener(
 			}
 			// Add style to translatorResult
 			pretty();
+			// check if audio button is clicked by user, play sound for that current word
 			$(".audio").click(playSound);
 		}
 	});
@@ -189,8 +190,11 @@ function createAudio(alt_result) {
 }
 
 function playSound() {
+	// create new audio object
 	var sound = new Audio();
+	// source link for the sound
 	sound.src = audio_link;
+	// play the sound
 	sound.play();
 }
 
