@@ -3,7 +3,7 @@ var resultDiv = $("<div>", {id: "translatorResult"});
 
 
 // User double click
-// get the selected word
+// get the selected word.
 var currentY = 0;
 var windowY = 0;
 var topPage = 0;
