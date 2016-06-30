@@ -1,7 +1,6 @@
 "use strict";
 var resultDiv = $("<div>", {id: "translatorResult"});
 
-
 // User double click
 // get the selected word.
 var currentY = 0;
@@ -202,9 +201,12 @@ function playSound() {
 function resetPage() {
 	if ($('#translatorResult').length > 0) {
 		$('#translatorResult').remove();
-
 	}
 
+}
+
+function selectDict() {
+	console.log("hello world!");
 }
 
 // Remove unwanted elements like idioms, relatedWord or social
@@ -239,6 +241,13 @@ function filter(result) {
 			idioms = false;
 		}
 	}
+}
+
+// User selected Dictionary
+function selectDict() {
+	console.log("Dict being selected");
+	var type_dict = document.getElementsByClassName("dic_op");
+	console.log("" + this.value);
 }
 
 
