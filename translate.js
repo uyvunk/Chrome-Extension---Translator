@@ -10,6 +10,7 @@ var currentX = 0;
 var isDragging = false;
 var audio_link = "";
 var WIDTH_POPUP = 400;
+var RADOM_SRING = "4902743617";
 $("body").dblclick(getString);
 //console.log(event.clientX);
 // User single click, reset the page to original
@@ -131,7 +132,7 @@ chrome.runtime.onMessage.addListener(
 			position(result);
 
 			// check if audio button is clicked by user, play sound for that current word
-			$(".audio").click(playSound);
+			$("." + RADOM_SRING + "audio" + RADOM_SRING).click(playSound);
 		}
 	});
 
@@ -201,7 +202,7 @@ function createAudio(alt_result) {
 	audio_link = "";
 	audio_link = alt_result.match(/http.*\.mp3/);
 	var button = document.createElement("div");
-	button.className = "audio";
+	button.className = RADOM_SRING + "audio" + RADOM_SRING;
 	var img = document.createElement("img");
 	img.src = "http://www.myiconfinder.com/uploads/iconsets/256-256-5ae3cc2a3ad2cd4da3bd55f7f8a49b22-speaker.png";
 	img.alt = "sound";
