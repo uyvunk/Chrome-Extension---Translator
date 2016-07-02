@@ -275,7 +275,7 @@ function selectDict() {
 
 // Add style to the result DIV
 function pretty() {
-	$('.word_title').css({"color":"#D03071", "font-size":"10pt", "font-weight":"bold", "width":"20px", "height":"20px"});
+	$('.word_title').css({"color":"#D03071", "font-size":"10pt", "font-weight":"bold"});
 	$('.audio_button').css({"width":"20px", "height":"20px"});
 	$('.audio').css({"margin-right":"5px", "margin-top":"2px", "display":"inline"});
 	$('.pronounce').css({"font-style":"italic", "display":"inline", "margin-top":"5px"});
