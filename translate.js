@@ -200,14 +200,17 @@ function position(result) {
 function createAudio(alt_result) {
 	// create audio html tag for html
 	audio_link = "";
-	audio_link = alt_result.match(/http.*\.mp3/);
+	var soundFileArray = alt_result.match(/http.*\.mp3/);
 	var button = document.createElement("div");
 	button.className = RADOM_SRING + "audio" + RADOM_SRING;
-	var img = document.createElement("img");
-	img.src = "http://www.myiconfinder.com/uploads/iconsets/256-256-5ae3cc2a3ad2cd4da3bd55f7f8a49b22-speaker.png";
-	img.alt = "sound";
-	img.className = "audio_button";
-	button.appendChild(img);
+	if (soundFileArray && soundFileArray.length > 0) {
+		audio_link = soundFileArray[0];
+		var img = document.createElement("img");
+		img.src = "http://www.myiconfinder.com/uploads/iconsets/256-256-5ae3cc2a3ad2cd4da3bd55f7f8a49b22-speaker.png";
+		img.alt = "sound";
+		img.className = "audio_button";
+		button.appendChild(img);
+	}
 	return button;
 }
 
