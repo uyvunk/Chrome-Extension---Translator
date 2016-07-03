@@ -253,10 +253,10 @@ function selectDict() {
 
 // Add style to the result DIV
 function pretty() {
-	$('.word_title').css({"color":"#D03071", "font-size":"10pt", "font-weight":"bold", "width":"20px", "height":"20px"});
 	$('.audio_button').css({"width":"20px", "height":"20px"});
-	$('.audio').css({"margin-right":"5px", "margin-top":"2px", "display":"inline"});
-	$('.pronounce').css({"font-style":"italic", "display":"inline", "margin-top":"5px"});
+	$('.audio').css({"margin-right":"5px", "margin-top":"2px"});
+	$('.word_title').css({"color":"#D03071", "font-size":"10pt", "font-weight":"bold", "width":"20px", "height":"20px"});
+	$('.pronounce').css({"font-style":"italic", "margin-top":"5px"});
 	$('.phanloai').css({"color":"#D03071","clear":"both", "font-weight":"bold", "border-top":"1px solid #666", "border-bottom":"1px solid #666", "background":"#eee", "margin":"5px", "padding":"3px"});
 	$('.list1').css({"list-style-type":"circle", "background":"none", "padding":"0px", "margin-left":"30px", "margin-bottom":"15px"});
 	$('.list1 li').css({"list-style-type":"circle","background":"none", "padding":"0px"});
