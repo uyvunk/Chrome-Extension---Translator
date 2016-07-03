@@ -9,19 +9,23 @@ var topPage = 0;
 var currentX = 0;
 var isDragging = false;
 var audio_link = "";
+var WIDTH_POPUP = 400;
+var RADOM_SRING = "4902743617";
+var audio_cName = "";
 $("body").dblclick(getString);
 //console.log(event.clientX);
-// User single click, reset the page to original 
-//$("body").click(resetPage);
+// User single click, reset the page to original
 $('body').click(function(evt){
 	if(!isDragging) {
-		if (evt.target.id == "translatorResult")
+		if (evt.target.id == "translatorResult") {
 			return;
-		//For descendants of menu_content being clicked, remove this check if you do not want to put constraint on descendants.
-		if ($(evt.target).closest('#translatorResult').length)
+		}
+		//For descendants of translatorResult being clicked, remove this check if you do not want to put constraint on descendants.
+		if ($(evt.target).closest('#translatorResult').length) {
 			return;
+		}
 
-		//Do processing of click event here for every element except with id menu_content.
+		//Do processing of click event here for every element except with id translatorResult.
 		if ($('#translatorResult').length > 0) {
 			$('#translatorResult').remove();
 
@@ -38,22 +42,29 @@ $('body').click(function(evt){
 function getString() {
 	if(!isDragging) {
 		var y = "";
+		// this is the current Y position of the mouse
 		currentY = parseInt(event.clientY);
-		topPage = parseInt(event.pageY) - parseInt(event.clientY);
-		//console.log(topPage);
 
+		//this is the current y position of the top of the page
+		topPage = parseInt(event.pageY) - parseInt(event.clientY);
+
+		// if the mouse is at top half, the pop-up definition will be below the word.
+		// if the mouse is at the bottom half, the pop-up definition will be above the word.
 		windowY = parseInt(window.innerHeight);
 		if (currentY > windowY / 2) {
-			y = topPage + currentY - 325 + "px";
+			y = topPage + currentY - 345 + "px";
 		} else {
-			y = topPage + currentY + "px";
+			y = topPage + currentY + 15 + "px";
 		}
-		currentX = parseInt(event.clientX) - 200;
+
+		// current X location of the pop-up
+		currentX = parseInt(event.clientX) - WIDTH_POPUP/2;
+
 		resultDiv.css({
 			"text-align": "left",
 			"font-family": "sans-serif",
 			"font-size": "8pt",
-			"width": "400px",
+			"width": WIDTH_POPUP + "px",
 			"max-height": "300px",
 			"overflow": "auto",
 			"border": "1px solid #9593A9",
@@ -105,7 +116,7 @@ chrome.runtime.onMessage.addListener(
 
 				// append it to the 4th element index array
 				result.splice(4, 0, audio_div);
-				console.log(audio_div.outerHTML);
+				//console.log(audio_div.outerHTML);
 				// filter the result
 				filter(result);
 				//console.log(result);
@@ -119,72 +130,90 @@ chrome.runtime.onMessage.addListener(
 				$('body').append(resultDiv);
 			}
 
+			position(result);
 
-			if(parseInt(document.getElementById("translatorResult").style.left) <0 ) {
-				document.getElementById("translatorResult").style.left = "0px";
-			}
-
-			if(parseInt(document.getElementById("translatorResult").style.left) + 400 > parseInt(window.innerWidth)) {
-				document.getElementById("translatorResult").style.left = parseInt(window.innerWidth) - 425 + "px";
-			}
-
-			var atX = 0;
-			var atY = 0;
-			$('#translatorResult').html(result);
-			document.getElementById("translatorResult").onmousedown = function () {
-				isDragging = true;
-				this.dragging = true;
-				atX = parseInt(event.clientX);
-				atY = parseInt(event.clientY);
-			}
-
-			document.getElementById("translatorResult").onmouseup = function () {
-				isDragging = false;
-				this.dragging = false;
-			}
-
-			document.getElementById("translatorResult").onmousemove = function() {
-				if(this.dragging) {
-					//console.log(event.clientY);
-					var newLocationX = parseInt(event.clientX);
-					var newLocationY = parseInt(event.clientY);
-					var dx = newLocationX - atX;
-					var dy = newLocationY - atY;
-					//console.log("dx" + dx);
-					//console.log("dy" + dy);
-					atX = newLocationX;
-					atY = newLocationY;
-
-					document.getElementById("translatorResult").style.left =
-						parseInt(document.getElementById("translatorResult").style.left) + dx + "px";
-					document.getElementById("translatorResult").style.top =
-						parseInt(document.getElementById("translatorResult").style.top) + dy + "px";
-				}
-			}
-
-			if(parseInt(document.getElementById("translatorResult").offsetHeight) < 275 &&
-				currentY > windowY/2 ){
-				document.getElementById("translatorResult").style.top = parseInt(document.getElementById("translatorResult").style.top) +
-					(280 - parseInt(document.getElementById("translatorResult").offsetHeight)) + "px";
-			}
-			// Add style to translatorResult
-			pretty();
 			// check if audio button is clicked by user, play sound for that current word
-			$(".audio").click(playSound);
+			$("." + RADOM_SRING + "audio" + RADOM_SRING).click(playSound);
 		}
 	});
+
+function position(result) {
+	//fix the pop - up location at edge cases
+	if(parseInt(document.getElementById("translatorResult").style.left) <0 ) {
+		document.getElementById("translatorResult").style.left = "0px";
+	}
+
+	if(parseInt(document.getElementById("translatorResult").style.left) + WIDTH_POPUP > parseInt(window.innerWidth)) {
+		document.getElementById("translatorResult").style.left = parseInt(window.innerWidth) - 425 + "px";
+	}
+
+	//mouse move is relative with the div at X and at Y
+	var atX = 0;
+	var atY = 0;
+	$('#translatorResult').html(result);
+
+	// draw when mouse down
+	document.getElementById("translatorResult").onmousedown = function () {
+		isDragging = true;
+		this.dragging = true;
+		atX = parseInt(event.clientX);
+		atY = parseInt(event.clientY);
+	};
+
+	// stop drag when mouse up
+	document.getElementById("translatorResult").onmouseup = function () {
+		isDragging = false;
+		this.dragging = false;
+	};
+
+	// move when mouse move
+	document.getElementById("translatorResult").onmousemove = function() {
+		if(this.dragging) {
+			//console.log(event.clientY);
+			var newLocationX = parseInt(event.clientX);
+			var newLocationY = parseInt(event.clientY);
+			var dx = newLocationX - atX;
+			var dy = newLocationY - atY;
+			//console.log("dx" + dx);
+			//console.log("dy" + dy);
+			atX = newLocationX;
+			atY = newLocationY;
+
+			document.getElementById("translatorResult").style.left =
+				parseInt(document.getElementById("translatorResult").style.left) + dx + "px";
+			document.getElementById("translatorResult").style.top =
+				parseInt(document.getElementById("translatorResult").style.top) + dy + "px";
+		}
+	};
+
+	// Add style to translatorResult
+	pretty();
+
+	// fix the upper div position with the correct height
+	if(parseInt(document.getElementById("translatorResult").offsetHeight) < 312 &&
+		currentY > windowY/2 ){
+		console.log("It's here!");
+		document.getElementById("translatorResult").style.top = parseInt(document.getElementById("translatorResult").style.top) +
+			(320 - parseInt(document.getElementById("translatorResult").offsetHeight)) + "px";
+	}
+}
 
 function createAudio(alt_result) {
 	// create audio html tag for html
 	audio_link = "";
-	audio_link = alt_result.match(/http.*\.mp3/);
+	var soundFileArray = alt_result.match(/http.*\.mp3/);
 	var button = document.createElement("div");
-	button.className = "audio";
-	var img = document.createElement("img");
-	img.src = "http://www.myiconfinder.com/uploads/iconsets/256-256-5ae3cc2a3ad2cd4da3bd55f7f8a49b22-speaker.png";
-	img.alt = "sound";
-	img.className = "audio_button";
-	button.appendChild(img);
+	audio_cName = RADOM_SRING + "audio" + RADOM_SRING;
+	button.className = audio_cName;
+	// console.log(audio_cName);
+	if (soundFileArray && soundFileArray.length > 0) {
+		audio_link = soundFileArray[0];
+		var img = document.createElement("img");
+		img.src = "http://www.myiconfinder.com/uploads/iconsets/256-256-5ae3cc2a3ad2cd4da3bd55f7f8a49b22-speaker.png";
+		img.alt = "sound";
+		img.className = "audio_button";
+		button.appendChild(img);
+	}
 	return button;
 }
 
@@ -253,9 +282,10 @@ function selectDict() {
 
 // Add style to the result DIV
 function pretty() {
+	$('.word_title').css({"color":"#D03071", "font-size":"10pt", "font-weight":"bold"});
 	$('.audio_button').css({"width":"20px", "height":"20px"});
 	$('.audio').css({"margin-right":"5px", "margin-top":"2px"});
-	$('.word_title').css({"color":"#D03071", "font-size":"10pt", "font-weight":"bold", "width":"20px", "height":"20px"});
+	$('.' + audio_cName).css({"display":"inline"});
 	$('.pronounce').css({"font-style":"italic", "margin-top":"5px"});
 	$('.phanloai').css({"color":"#D03071","clear":"both", "font-weight":"bold", "border-top":"1px solid #666", "border-bottom":"1px solid #666", "background":"#eee", "margin":"5px", "padding":"3px"});
 	$('.list1').css({"list-style-type":"circle", "background":"none", "padding":"0px", "margin-left":"30px", "margin-bottom":"15px"});
