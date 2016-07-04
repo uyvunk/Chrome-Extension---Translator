@@ -1,4 +1,6 @@
 # Chrome-Extension---Translator
+https://chrome.google.com/webstore/detail/eng-vi-dictionary/nidobgjfikdhjkmdbpppjokehnnfcefb?hl=en-US
+
 Translate English word to Vietnamese
 
 How to use it?
