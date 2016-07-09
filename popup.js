@@ -4,5 +4,6 @@ document.addEventListener('DOMContentLoaded', function() {
 })
 
 function setDict() {
+	//something
 	console.log(this.value);
 }
