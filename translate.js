@@ -94,12 +94,17 @@ function getString() {
 	}
 }
 
-
-
 // listen to reply event from the background script
 chrome.runtime.onMessage.addListener(
 	function(request, sender, sendResponse) {
-		if(request.message == "reply") {			
+		if(request.message == "reply") {	
+			console.log("current word found " + request.word);
+			console.log("2");
+			// store user search history
+			storeHist(request.word);
+
+			displayHist();
+			// console.log(localStorage.getItem("hist"));		
 			// display the result-contents div
 			var result = $(request.data).find("#result-contents").html();
 			//console.log("Result:\n" + result);
@@ -134,6 +139,25 @@ chrome.runtime.onMessage.addListener(
 			$(".audio").click(playSound);
 		}
 	});
+
+function storeHist(word) {
+	var storage = localStorage.getItem("hist");
+	if(storage === null) {
+		storage = "<li>" + word + "</li>";
+	} else {
+		storage += "<li>" + word + "</li>";
+	}
+	localStorage.setItem("hist", storage);
+	//console.log(localStorage.getItem("hist"));
+}
+
+function displayHist() {
+	chrome.runtime.sendMessage({"message":"history", "data": localStorage.getItem("hist")});
+	console.log("message sent");
+	// console.log(localStorage.getItem("hist"));
+	// var hist = document.getElementById("history");
+	// console.log(hist);
+}
 
 function position(result) {
 	//fix the pop - up location at edge cases
@@ -190,7 +214,7 @@ function position(result) {
 	// fix the upper div position with the correct height
 	if(parseInt(document.getElementById("translatorResult").offsetHeight) < 312 &&
 		currentY > windowY/2 ){
-		console.log("It's here!");
+		//console.log("It's here!");
 		document.getElementById("translatorResult").style.top = parseInt(document.getElementById("translatorResult").style.top) +
 			(320 - parseInt(document.getElementById("translatorResult").offsetHeight)) + "px";
 	}
