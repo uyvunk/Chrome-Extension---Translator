@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
 chrome.runtime.sendMessage({method:"getHist"}, function(response) {
 	var hist_div = document.getElementById("history");
 	hist_div.innerHTML = response;
-	console.log(response);
+	//console.log(response);
 });
 
 function showHist() {
@@ -20,11 +20,11 @@ function showHist() {
 	} else {
 		hist.style.display = "none";
 	}
-	console.log("showHist");
+	//console.log("showHist");
 }
 function setDict() {
 	//something
-	var hist_div = document.getElementById("history");
-	hist_div.style.display = "none";
-	console.log(this.value);
+	chrome.runtime.sendMessage({"message":"dictionaries", "data": this.value}, function(response) {
+		console.log("dict has been selected");
+	});
 }
