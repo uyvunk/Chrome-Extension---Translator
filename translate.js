@@ -10,6 +10,8 @@ var currentX = 0;
 var isDragging = false;
 var audio_link = "";
 var WIDTH_POPUP = 400;
+var RADOM_SRING = "4902743617";
+var audio_cName = "";
 $("body").dblclick(getString);
 //console.log(event.clientX);
 // User single click, reset the page to original
@@ -136,7 +138,7 @@ chrome.runtime.onMessage.addListener(
 			position(result);
 
 			// check if audio button is clicked by user, play sound for that current word
-			$(".audio").click(playSound);
+			$("." + RADOM_SRING + "audio" + RADOM_SRING).click(playSound);
 		}
 	});
 
@@ -223,14 +225,19 @@ function position(result) {
 function createAudio(alt_result) {
 	// create audio html tag for html
 	audio_link = "";
-	audio_link = alt_result.match(/http.*\.mp3/);
+	var soundFileArray = alt_result.match(/http.*\.mp3/);
 	var button = document.createElement("div");
-	button.className = "audio";
-	var img = document.createElement("img");
-	img.src = "http://www.myiconfinder.com/uploads/iconsets/256-256-5ae3cc2a3ad2cd4da3bd55f7f8a49b22-speaker.png";
-	img.alt = "sound";
-	img.className = "audio_button";
-	button.appendChild(img);
+	audio_cName = RADOM_SRING + "audio" + RADOM_SRING;
+	button.className = audio_cName;
+	// console.log(audio_cName);
+	if (soundFileArray && soundFileArray.length > 0) {
+		audio_link = soundFileArray[0];
+		var img = document.createElement("img");
+		img.src = "http://www.myiconfinder.com/uploads/iconsets/256-256-5ae3cc2a3ad2cd4da3bd55f7f8a49b22-speaker.png";
+		img.alt = "sound";
+		img.className = "audio_button";
+		button.appendChild(img);
+	}
 	return button;
 }
 
@@ -289,8 +296,9 @@ function filter(result) {
 function pretty() {
 	$('.word_title').css({"color":"#D03071", "font-size":"10pt", "font-weight":"bold"});
 	$('.audio_button').css({"width":"20px", "height":"20px"});
-	$('.audio').css({"margin-right":"5px", "margin-top":"2px", "display":"inline"});
-	$('.pronounce').css({"font-style":"italic", "display":"inline", "margin-top":"5px"});
+	$('.audio').css({"margin-right":"5px", "margin-top":"2px"});
+	$('.' + audio_cName).css({"display":"inline"});
+	$('.pronounce').css({"font-style":"italic", "margin-top":"5px"});
 	$('.phanloai').css({"color":"#D03071","clear":"both", "font-weight":"bold", "border-top":"1px solid #666", "border-bottom":"1px solid #666", "background":"#eee", "margin":"5px", "padding":"3px"});
 	$('.list1').css({"list-style-type":"circle", "background":"none", "padding":"0px", "margin-left":"30px", "margin-bottom":"15px"});
 	$('.list1 li').css({"list-style-type":"circle","background":"none", "padding":"0px"});
