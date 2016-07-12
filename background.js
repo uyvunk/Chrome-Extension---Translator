@@ -50,6 +50,4 @@ function lookUp(word, activeTab) {
 	function receiveError() {
 		chrome.tabs.sendMessage(activeTab.id, {"message":"reply", "data":"", "word": word});
 	}
-
-	
 }
