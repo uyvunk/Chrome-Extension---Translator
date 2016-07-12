@@ -1,5 +1,5 @@
 var hist = "";
-var dict_type = "";
+var dict_type = "eng-vi";
 chrome.runtime.onMessage.addListener(
 	function(request, sender, sendResponse) {
 		// data sent to background by content script

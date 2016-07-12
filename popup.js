@@ -44,7 +44,6 @@ function setDict() {
 			localStorage.setItem("curr_dict", "English to Vietnamese Dictionary Selected");
 		} else if (response == "eng-eng") {
 			localStorage.setItem("curr_dict", "English to English Dictionary Selected");
-
 		}
 		curr_dict.innerHTML = localStorage.getItem("curr_dict");
 

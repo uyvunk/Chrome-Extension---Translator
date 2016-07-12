@@ -98,8 +98,8 @@ function getString() {
 chrome.runtime.onMessage.addListener(
 	function(request, sender, sendResponse) {
 		if(request.message == "reply") {	
-			console.log("current word found " + request.word);
-			console.log("2");
+			// console.log("current word found " + request.word);
+			// console.log("2");
 			// store user search history
 			storeHist(request.word);
 
@@ -153,7 +153,7 @@ function storeHist(word) {
 
 function displayHist() {
 	chrome.runtime.sendMessage({"message":"history", "data": localStorage.getItem("hist")});
-	console.log("message sent");
+	// console.log("message sent");
 	// console.log(localStorage.getItem("hist"));
 	// var hist = document.getElementById("history");
 	// console.log(hist);
@@ -251,10 +251,6 @@ function resetPage() {
 
 }
 
-function selectDict() {
-	console.log("hello world!");
-}
-
 // Remove unwanted elements like idioms, relatedWord or social
 function filter(result) {
 	var idioms = false;
@@ -288,14 +284,6 @@ function filter(result) {
 		}
 	}
 }
-
-// User selected Dictionary
-function selectDict() {
-	console.log("Dict being selected");
-	var type_dict = document.getElementsByClassName("dic_op");
-	console.log("" + this.value);
-}
-
 
 // Add style to the result DIV
 function pretty() {
