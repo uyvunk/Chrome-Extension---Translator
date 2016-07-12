@@ -11,7 +11,15 @@ chrome.runtime.sendMessage({method:"getHist"}, function(response) {
 });
 
 function showHist() {
-	document.getElementById("history").style.display = "block";
+	var hist = document.getElementById("history");
+	// allow user to click to show/hide the list of history by just clicking on the
+	// search history button
+	if (window.getComputedStyle(hist).display == "none") {
+		//console.log(document.getElementById("history").getComputedStyle("display"));
+		hist.style.display = "block";
+	} else {
+		hist.style.display = "none";
+	}
 	console.log("showHist");
 }
 function setDict() {
