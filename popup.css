@@ -5,3 +5,7 @@ body {
 button {
 	margin-top: 5px;
 }
+
+#history {
+	display: none;
+}

@@ -9,7 +9,11 @@ How to use it?
 
 Special thank to: Vdict.com for the perfect online dictionary
 
-Update: 
+Update 1.0: 
 - added pronunciation sound to the translator
 - update the position of the translator.
 - https://youtu.be/lp0ebT7Q1Ig
+
+Update 1.1:
+- added search history for searched words
+- added new type of dictionary (english to english)
