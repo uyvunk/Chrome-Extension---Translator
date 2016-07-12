@@ -1,4 +1,5 @@
 var hist = "";
+var dict_type = "";
 chrome.runtime.onMessage.addListener(
 	function(request, sender, sendResponse) {
 		// data sent to background by content script
@@ -17,14 +18,19 @@ chrome.runtime.onMessage.addListener(
 			getHist(sendResponse);
 			return true;
 		} else if (request.message == "dictionaries") {
-			alert("iam noeww " + request.data);
-
+			dict_type = request.data;
+			sendResponse(request.data);
 		}
 	});
 	
 function lookUp(word, activeTab) {
 	// var url = "https://translate.google.com/#en/vi/" + word;
-	var url = "http://www.vdict.com/" + word + ",1,0,0.html";
+	var url = "";
+	if (dict_type == "eng-vi") { 
+		url = "http://www.vdict.com/" + word + ",1,0,0.html";
+	} else if (dict_type == "eng-eng") {
+		url = "http://www.vdict.com/" + word + ",7,0,0.html";
+	}
 	var xhr = new XMLHttpRequest();
 	xhr.onload = receiveData;
 	xhr.onerror = receiveError;
