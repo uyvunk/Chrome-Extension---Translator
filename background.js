@@ -16,6 +16,9 @@ chrome.runtime.onMessage.addListener(
 			sendResponse(hist);
 			getHist(sendResponse);
 			return true;
+		} else if (request.message == "dictionaries") {
+			alert("iam noeww " + request.data);
+
 		}
 	});
 	
