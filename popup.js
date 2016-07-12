@@ -1,3 +1,16 @@
+window.onload = function () {
+	// since popup will restart its state, so we need to check if localStorage contain 
+	// previous information about user choosed dictioanry type or not; if yes, we'll
+	// notify user about their previous selected dictionary instead of "please select dictionary"
+	if (localStorage.getItem("curr_dict") != null) {
+		var curr_dict = document.getElementById("dict-type");
+		curr_dict.innerHTML = localStorage.getItem("curr_dict");
+	} else {
+		var curr_dict = document.getElementById("dict-type");
+		curr_dict.innerHTML = "Please Selected Your Dictionary";
+	}
+};
+
 document.addEventListener('DOMContentLoaded', function() {
 	document.getElementById("hist").addEventListener("click", showHist);
 	document.getElementById("eng-vi").addEventListener("click", setDict);
@@ -23,8 +36,17 @@ function showHist() {
 	//console.log("showHist");
 }
 function setDict() {
+	var curr_dict = document.getElementById("dict-type");
 	//something
 	chrome.runtime.sendMessage({"message":"dictionaries", "data": this.value}, function(response) {
-		console.log("dict has been selected");
+		curr_dict.innerHTML = "";
+		if (response == "eng-vi") {
+			localStorage.setItem("curr_dict", "English to Vietnamese Dictionary Selected");
+		} else if (response == "eng-eng") {
+			localStorage.setItem("curr_dict", "English to English Dictionary Selected");
+
+		}
+		curr_dict.innerHTML = localStorage.getItem("curr_dict");
+
 	});
 }
