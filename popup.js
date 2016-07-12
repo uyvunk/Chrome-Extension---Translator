@@ -14,7 +14,13 @@ window.onload = function () {
 document.addEventListener('DOMContentLoaded', function() {
 	document.getElementById("hist").addEventListener("click", showHist);
 	document.getElementById("eng-vi").addEventListener("click", setDict);
+	document.getElementById("vi-eng").addEventListener("click", setDict);
+	document.getElementById("vi-vi").addEventListener("click", setDict);
 	document.getElementById("eng-eng").addEventListener("click", setDict);
+	document.getElementById("fr-vi").addEventListener("click", setDict);
+	document.getElementById("vi-fr").addEventListener("click", setDict);
+	document.getElementById("cn-vi").addEventListener("click", setDict);
+	document.getElementById("cse").addEventListener("click", setDict);
 });
 
 chrome.runtime.sendMessage({method:"getHist"}, function(response) {
@@ -44,6 +50,18 @@ function setDict() {
 			localStorage.setItem("curr_dict", "English to Vietnamese Dictionary Selected");
 		} else if (response == "eng-eng") {
 			localStorage.setItem("curr_dict", "English to English Dictionary Selected");
+		} else if (response == "vi-eng") {
+			localStorage.setItem("curr_dict", "Vietnamese to English Dictionary Selected");
+		} else if (response == "vi-vi") {
+			localStorage.setItem("curr_dict", "Vietnamese to Vietnamese Dictionary Selected");
+		} else if (response == "vi-fr") {
+			localStorage.setItem("curr_dict", "Vietnamese to French Dictionary Selected");
+		} else if (response == "fr-vi") {
+			localStorage.setItem("curr_dict", "French to Vietnamese Dictionary Selected");
+		} else if (response == "cn-vi") {
+			localStorage.setItem("curr_dict", "Chinese to Vietnamese Dictionary Selected");
+		} else if (response == "cse") {
+			localStorage.setItem("curr_dict", "Special Dictionary for CSE");
 		}
 		curr_dict.innerHTML = localStorage.getItem("curr_dict");
 

@@ -26,11 +26,25 @@ chrome.runtime.onMessage.addListener(
 function lookUp(word, activeTab) {
 	// var url = "https://translate.google.com/#en/vi/" + word;
 	var url = "";
+	// determine what type of dictionary that the user choosen to be used
 	if (dict_type == "eng-vi") { 
 		url = "http://www.vdict.com/" + word + ",1,0,0.html";
 	} else if (dict_type == "eng-eng") {
 		url = "http://www.vdict.com/" + word + ",7,0,0.html";
+	} else if (dict_type == "vi-eng") {
+		url = "http://www.vdict.com/" + word + ",2,0,0.html";
+	} else if (dict_type == "vi-vi") {
+		url =  "http://www.vdict.com/" + word + ",3,0,0.html";
+	} else if (dict_type == "vi-fr") {
+		url =  "http://www.vdict.com/" + word + ",4,0,0.html";
+	} else if (dict_type == "fr-vi") {
+		url =  "http://www.vdict.com/" + word + ",5,0,0.html";
+	} else if (dict_type == "cn-vn") {
+		url =  "http://www.vdict.com/" + word + ",8,0,0.html";
+	} else if (dict_type == "cse") {
+		url =  "http://www.vdict.com/" + word + ",6,0,0.html";
 	}
+	
 	var xhr = new XMLHttpRequest();
 	xhr.onload = receiveData;
 	xhr.onerror = receiveError;

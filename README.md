@@ -16,4 +16,11 @@ Update 1.0:
 
 Update 1.1:
 - added search history for searched words
-- added new type of dictionary (english to english)
+- added new type of dictionaries
+1) English to English
+2) Vietnamese to English
+3) Vietnamese to Vietnamese
+4) Vietnamese to French
+5) French to Vietnamese
+6) Chinese to Vietnamese
+7) Dictionary for Computer Science and Engineering (technology)
