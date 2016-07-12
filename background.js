@@ -1,19 +1,17 @@
 var hist = "";
 chrome.runtime.onMessage.addListener(
 	function(request, sender, sendResponse) {
+		// data sent to background by content script
 		if(request.message == "query") {
 			chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 				var activeTab = tabs[0];
-				// if (storage === null) {
-				// 	storage = [];
-				// }
-				// storage.push(request.data);
-				// localStorage.setItem("hist", storage);
-				// console.log("current list of word " + localStorage.getItem("hist"));
 				lookUp(request.data, activeTab);
 			});
+		// data sent from content script to store current history search list
 		} else if (request.message == "history") {
 			hist = request.data;
+		// retrieve current history list and then send the response to popup.js
+		// so that it can process information
 		} else if (request.method == "getHist") {
 			sendResponse(hist);
 			getHist(sendResponse);
