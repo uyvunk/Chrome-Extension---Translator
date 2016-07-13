@@ -33,14 +33,6 @@ function lookUp(word, activeTab) {
 		url = "http://www.vdict.com/" + word + ",7,0,0.html";
 	} else if (dict_type == "vi-eng") {
 		url = "http://www.vdict.com/" + word + ",2,0,0.html";
-	} else if (dict_type == "vi-vi") {
-		url =  "http://www.vdict.com/" + word + ",3,0,0.html";
-	} else if (dict_type == "vi-fr") {
-		url =  "http://www.vdict.com/" + word + ",4,0,0.html";
-	} else if (dict_type == "fr-vi") {
-		url =  "http://www.vdict.com/" + word + ",5,0,0.html";
-	} else if (dict_type == "cn-vn") {
-		url =  "http://www.vdict.com/" + word + ",8,0,0.html";
 	} else if (dict_type == "cse") {
 		url =  "http://www.vdict.com/" + word + ",6,0,0.html";
 	}

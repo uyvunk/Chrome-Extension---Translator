@@ -52,14 +52,6 @@ function setDict() {
 			localStorage.setItem("curr_dict", "English to English Dictionary Selected");
 		} else if (response == "vi-eng") {
 			localStorage.setItem("curr_dict", "Vietnamese to English Dictionary Selected");
-		} else if (response == "vi-vi") {
-			localStorage.setItem("curr_dict", "Vietnamese to Vietnamese Dictionary Selected");
-		} else if (response == "vi-fr") {
-			localStorage.setItem("curr_dict", "Vietnamese to French Dictionary Selected");
-		} else if (response == "fr-vi") {
-			localStorage.setItem("curr_dict", "French to Vietnamese Dictionary Selected");
-		} else if (response == "cn-vi") {
-			localStorage.setItem("curr_dict", "Chinese to Vietnamese Dictionary Selected");
 		} else if (response == "cse") {
 			localStorage.setItem("curr_dict", "Special Dictionary for CSE");
 		}
