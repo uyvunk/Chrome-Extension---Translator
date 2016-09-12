@@ -15,11 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	document.getElementById("hist").addEventListener("click", showHist);
 	document.getElementById("eng-vi").addEventListener("click", setDict);
 	document.getElementById("vi-eng").addEventListener("click", setDict);
-	document.getElementById("vi-vi").addEventListener("click", setDict);
 	document.getElementById("eng-eng").addEventListener("click", setDict);
-	document.getElementById("fr-vi").addEventListener("click", setDict);
-	document.getElementById("vi-fr").addEventListener("click", setDict);
-	document.getElementById("cn-vi").addEventListener("click", setDict);
 	document.getElementById("cse").addEventListener("click", setDict);
 });
 
